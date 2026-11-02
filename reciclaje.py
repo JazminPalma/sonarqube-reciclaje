@@ -15,33 +15,6 @@ print("Ruta del dataset:", dataset_path)
 for folder in os.listdir(dataset_path):
   print(folder)
 
-#todas las imagen deben de tener el mismo tamanio
-#analiza las imagenes
-
-train_ds = tf.keras.preprocessing.image_dataset_from_directory(
-    dataset_path,
-    image_size=(224, 224),
-    batch_size=32
-)
-
-class_names = train_ds.class_names
-print(class_names)
-
-#que tipos de imagenes tiene
-#para que el usuario vea que cargo
-
-for images, label in train_ds.take(1):
-  plt.imshow(images[0].numpy().astype("uint8"))
-  plt.title(class_names[label[0]])
-  plt.axis("off")
-
-#para ordenar ls estructuras de la clase, diccionario de datos nombre y caracteristicas con las que entrene
-#solo si uno quiere que el usuario descargue el json
-
-
-#para guardar el modleo en el content de google colab
-#y ver donde esta la iamgen en la computadora
-
 IMG_SIZE = (224,224)
 BATCH_SIZE = 32
 SEED =42
