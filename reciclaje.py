@@ -13,7 +13,7 @@ dataset_path = dataset_download("saumyamohandas/garbage-classification-image-dat
 print("Ruta del dataset:", dataset_path)
 
 for folder in os.listdir(dataset_path):
-  print(folder)
+    print(folder)
 
 IMG_SIZE = (224,224)
 BATCH_SIZE = 32
@@ -84,7 +84,7 @@ EPOCHS = 1
 callbacks = [
     tf.keras.callbacks.EarlyStopping( # detiene el entrenamiento cuando ve que ya no aprende
         monitor='val_loss',
-        patience=3, #con dos epochs consecutivas no aprende el modelo no va a prender, entonces se para
+        patience=3, #si val_loss no mejora en 3 epocas seguidas, se detiene.
         restore_best_weights=True)
 ]
 
@@ -130,8 +130,9 @@ LABELS_ES = {
     "trash": "Descarte"
 }
 
-def predict_image(ima_path_param):
-    img = Image.open(ima_path_param).convert("RGB").resize(IMG_SIZE)
+def predict_image(ima_path):
+    """Predice el tipo de desecho de una foto y muestra las 3 clases mas probables."""
+    img = Image.open(ima_path).convert("RGB").resize(IMG_SIZE)
     arr = preprocess_input(np.array(img, dtype=np.float32))
     #255 porque tensor flow maneja mejor las imagenes de 0 a 1
     arr = np.expand_dims(arr, axis=0)
@@ -145,4 +146,6 @@ def predict_image(ima_path_param):
 #Ejemplo
 example_img_path = "vidrio.jpg"
 predict_image(example_img_path)
-plt.imshow(Image.open(example_img_path)); plt.title("Imagen analizada"); plt.axis("off")
+plt.imshow(Image.open(example_img_path)); 
+plt.title("Imagen analizada"); 
+plt.axis("off")
