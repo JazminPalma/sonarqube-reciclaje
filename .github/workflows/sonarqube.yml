@@ -26,12 +26,12 @@ jobs:
 
       - name: Revision de estilo con Pylint
         run: |
-          pip install pylint
+          pip install --only-binary :all: pylint==4.1.3
           pylint reciclaje.py --disable=import-error,invalid-name,missing-module-docstring --output-format=parseable --exit-zero > pylint-report.txt
           cat pylint-report.txt
 
       - name: Analisis - SonarQube
         if: github.event_name == 'push'
-        uses: SonarSource/sonarqube-scan-action@v8
+        uses: SonarSource/sonarqube-scan-action@4d1dc0c91ee400dcf8a6dddf2f705ac36542e304
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
