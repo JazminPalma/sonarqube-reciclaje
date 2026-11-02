@@ -1,0 +1,37 @@
+name: Pipeline de calidad con SonarQube
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  calidad:
+    name: Build y analisis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Source - descargar el codigo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build - verificar que el codigo compila
+        run: python -m py_compile reciclaje.py
+
+      - name: Revision de estilo con Pylint
+        run: |
+          pip install pylint
+          pylint reciclaje.py --disable=import-error,invalid-name,missing-module-docstring --output-format=parseable --exit-zero > pylint-report.txt
+          cat pylint-report.txt
+
+      - name: Analisis - SonarQube
+        if: github.event_name == 'push'
+        uses: SonarSource/sonarqube-scan-action@v8
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
