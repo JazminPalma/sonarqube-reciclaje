@@ -1,0 +1,8 @@
+# Modelo entrenado: es un resultado del programa, no código
+modelo_reciclaje_mobilenet/
+*.h5
+*.keras
+
+# Archivos temporales de Python y de Jupyter
+__pycache__/
+.ipynb_checkpoints/
