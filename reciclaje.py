@@ -45,7 +45,7 @@ print("Clases detectadas: ", class_name)
 plt.figure(figsize=(10,8))
 for images, labels in train_ds.take(1):
     for i in range(min(9, len(images))):
-        ax = plt.subplot(3,3,i+1)
+        plt.subplot(3, 3, i + 1)
         plt.imshow(images[i].numpy().astype("uint8"))
         plt.title(class_name[labels[i]])
         plt.axis("off")
@@ -88,7 +88,7 @@ callbacks = [
         restore_best_weights=True)
 ]
 
-history = model.fit(
+model.fit(
     train_ds,
     validation_data=val_ds,
     epochs=EPOCHS,
