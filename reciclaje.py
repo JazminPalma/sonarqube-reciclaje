@@ -33,7 +33,7 @@ train_ds = tf.keras.utils.image_dataset_from_directory(
 )
 
 val_ds = tf.keras.utils.image_dataset_from_directory(
-    train_data_path,
+    test_data_path,
     seed=SEED,
     image_size=IMG_SIZE,
     batch_size=BATCH_SIZE,
