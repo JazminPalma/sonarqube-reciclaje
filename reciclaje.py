@@ -132,7 +132,7 @@ LABELS_ES = {
 
 def predict_image(ima_path_param):
     img = Image.open(ima_path_param).convert("RGB").resize(IMG_SIZE)
-    arr = np.array(img, dtype= np.float32) / 255.0
+    arr = preprocess_input(np.array(img, dtype=np.float32))
     #255 porque tensor flow maneja mejor las imagenes de 0 a 1
     arr = np.expand_dims(arr, axis=0)
     preds = test_model.predict(arr, verbose=0)[0]
