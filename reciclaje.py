@@ -56,7 +56,9 @@ AUTOTUNE = tf.data.AUTOTUNE
 
 preprocess_input = tf.keras.applications.mobilenet_v2.preprocess_input
 
-train_ds = train_ds.map(lambda x, y: (preprocess_input(tf.cast(x, tf.float32)), y)).prefetch(AUTOTUNE)
+train_ds = train_ds.map(
+    lambda x, y: (preprocess_input(tf.cast(x, tf.float32)), y)
+).prefetch(AUTOTUNE)
 
 val_ds = val_ds.map(lambda x, y: (preprocess_input(tf.cast(x, tf.float32)), y)).prefetch(AUTOTUNE)
 
@@ -146,6 +148,6 @@ def predict_image(ima_path):
 #Ejemplo
 example_img_path = "vidrio.jpg"
 predict_image(example_img_path)
-plt.imshow(Image.open(example_img_path)); 
-plt.title("Imagen analizada"); 
+plt.imshow(Image.open(example_img_path))
+plt.title("Imagen analizada")
 plt.axis("off")
