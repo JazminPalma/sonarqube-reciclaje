@@ -72,7 +72,8 @@ inputs = tf.keras.Input(shape=IMG_SIZE + (3,))
 x= base_model(inputs, training=False) #neurana base
 x= tf.keras.layers.GlobalAveragePooling2D()(x) #reducir los parametros de analisis de las imagenes
 x= tf.keras.layers.Dropout(0.2)(x) # va a tomar el 20% de las neuronas  y las demas no se toca
-outputs = tf.keras.layers.Dense(len(class_name), activation='softmax')(x) #sacar una probablidad que esa imagen es lo que dice el modelo
+# sacar la probabilidad de que la imagen sea de cada clase
+outputs = tf.keras.layers.Dense(len(class_name), activation='softmax')(x)
 model = tf.keras.Model(inputs, outputs)
 
 model.compile(optimizer="adam",
@@ -136,7 +137,7 @@ def predict_image(ima_path):
     """Predice el tipo de desecho de una foto y muestra las 3 clases mas probables."""
     img = Image.open(ima_path).convert("RGB").resize(IMG_SIZE)
     arr = preprocess_input(np.array(img, dtype=np.float32))
-    #255 porque tensor flow maneja mejor las imagenes de 0 a 1
+    # Mismo preprocesamiento que en el entrenamiento: pixeles entre -1 y 1
     arr = np.expand_dims(arr, axis=0)
     preds = test_model.predict(arr, verbose=0)[0]
     top3_idx = np.argsort(preds)[-3:][::-1]
