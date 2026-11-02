@@ -1,19 +1,22 @@
-#Ncesutamos instalar lo siguiente
-# !pip install tensorflow numpy pillow matplotlib
+import json
+import os
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+import numpy as np
+import tensorflow as tf
+from kagglehub import dataset_download
+from PIL import Image
 
 #todas las dependencias de kaggle
-from kagglehub import dataset_download
 dataset_path = dataset_download("saumyamohandas/garbage-classification-image-dataset")
 print("Ruta del dataset:", dataset_path)
-
-import os
 
 for folder in os.listdir(dataset_path):
   print(folder)
 
 #todas las imagen deben de tener el mismo tamanio
 #analiza las imagenes
-import tensorflow as tf
 
 train_ds = tf.keras.preprocessing.image_dataset_from_directory(
     dataset_path,
@@ -26,7 +29,6 @@ print(class_names)
 
 #que tipos de imagenes tiene
 #para que el usuario vea que cargo
-import matplotlib.pyplot as plt
 
 for images, label in train_ds.take(1):
   plt.imshow(images[0].numpy().astype("uint8"))
@@ -35,18 +37,10 @@ for images, label in train_ds.take(1):
 
 #para ordenar ls estructuras de la clase, diccionario de datos nombre y caracteristicas con las que entrene
 #solo si uno quiere que el usuario descargue el json
-import json
-import os
+
 
 #para guardar el modleo en el content de google colab
 #y ver donde esta la iamgen en la computadora
-from pathlib import Path
-
-import matplotlib.pyplot as plt
-#de mayor a menor los indices
-import numpy as np
-import tensorflow as tf
-from PIL import Image
 
 IMG_SIZE = (224,224)
 BATCH_SIZE = 32
@@ -145,8 +139,6 @@ with open(OUTPUT_DIR / "class_name.json", "w", encoding= "utf-8") as f:
 print("Modelo guardado en: ", OUTPUT_DIR / "waste_mobilenet.h5")
 print("Modelo guardado en: ", OUTPUT_DIR / "waste_mobilenet.keras")
 print("Clases guardadas en: ", OUTPUT_DIR / "class_name.json")
-
-import tensorflow as tf
 
 test_model = tf.keras.models.load_model(
    "modelo_reciclaje_mobilenet/waste_mobilenet.h5",
